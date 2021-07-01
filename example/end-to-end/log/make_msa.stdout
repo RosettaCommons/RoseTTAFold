@@ -1,0 +1,2 @@
+hhblits -o /dev/null -mact 0.35 -maxfilt 100000000 -neffmax 20 -cov 25 -cpu 8 -nodiff -realign_max 100000000 -maxmem 64 -n 4 -d /mnt/home/minkbaek/git/RoseTTAFold/UniRef30_2020_06/UniRef30_2020_06 -d /mnt/home/minkbaek/git/RoseTTAFold/bfd/bfd_metaclust_clu_complete_id30_c90_final_seq.sorted_opt
+1e-30

@@ -1,0 +1,5 @@
+model_1     0.7452   /mnt/home/minkbaek/git/RoseTTAFold/example/pyrosetta/pdb-3track/model0_0_0.05.pdb
+model_2     0.7416   /mnt/home/minkbaek/git/RoseTTAFold/example/pyrosetta/pdb-3track/model0_0_0.35.pdb
+model_3     0.7381   /mnt/home/minkbaek/git/RoseTTAFold/example/pyrosetta/pdb-3track/model0_1_0.05.pdb
+model_4     0.7289   /mnt/home/minkbaek/git/RoseTTAFold/example/pyrosetta/pdb-3track/model0_0_0.25.pdb
+model_5     0.7224   /mnt/home/minkbaek/git/RoseTTAFold/example/pyrosetta/pdb-3track/model0_2_0.15.pdb

@@ -106,3 +106,4 @@ dependencies:
     - decorator==4.4.2
     - dgl-cu110==0.6.1
     - scipy==1.7.0
+    - lie-learn==0.0.1.post1

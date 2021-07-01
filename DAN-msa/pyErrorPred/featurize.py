@@ -1,6 +1,6 @@
 # Instantiate pyrosetta
 from pyrosetta import *
-init(extra_options = "-constant_seed -mute all")
+init(extra_options = "-constant_seed -mute all -multithreading:interaction_graph_threads 1 -multithreading:total_threads 1")
 
 # Import necessary libraries
 import numpy as np

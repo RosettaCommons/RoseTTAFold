@@ -1,0 +1,36 @@
+Traceback (most recent call last):
+  File "/mnt/home/minkbaek/git/RoseTTAFold/folding/RosettaTR.py", line 6, in <module>
+    from utils import *
+  File "/mnt/home/minkbaek/git/RoseTTAFold/folding/utils.py", line 5, in <module>
+    from pyrosetta import *
+ModuleNotFoundError: No module named 'pyrosetta'
+Traceback (most recent call last):
+  File "/mnt/home/minkbaek/git/RoseTTAFold/folding/RosettaTR.py", line 6, in <module>
+    from utils import *
+  File "/mnt/home/minkbaek/git/RoseTTAFold/folding/utils.py", line 5, in <module>
+    from pyrosetta import *
+ModuleNotFoundError: No module named 'pyrosetta'
+Traceback (most recent call last):
+  File "/mnt/home/minkbaek/git/RoseTTAFold/folding/RosettaTR.py", line 6, in <module>
+    from utils import *
+  File "/mnt/home/minkbaek/git/RoseTTAFold/folding/utils.py", line 5, in <module>
+    from pyrosetta import *
+ModuleNotFoundError: No module named 'pyrosetta'
+Traceback (most recent call last):
+  File "/mnt/home/minkbaek/git/RoseTTAFold/folding/RosettaTR.py", line 6, in <module>
+    from utils import *
+  File "/mnt/home/minkbaek/git/RoseTTAFold/folding/utils.py", line 5, in <module>
+    from pyrosetta import *
+ModuleNotFoundError: No module named 'pyrosetta'
+Traceback (most recent call last):
+  File "/mnt/home/minkbaek/git/RoseTTAFold/folding/RosettaTR.py", line 6, in <module>
+    from utils import *
+  File "/mnt/home/minkbaek/git/RoseTTAFold/folding/utils.py", line 5, in <module>
+    from pyrosetta import *
+ModuleNotFoundError: No module named 'pyrosetta'
+Traceback (most recent call last):
+  File "/mnt/home/minkbaek/git/RoseTTAFold/folding/RosettaTR.py", line 6, in <module>
+    from utils import *
+  File "/mnt/home/minkbaek/git/RoseTTAFold/folding/utils.py", line 5, in <module>
+    from pyrosetta import *
+ModuleNotFoundError: No module named 'pyrosetta'

@@ -7,6 +7,8 @@ import numpy as np
 from sklearn.cluster import AgglomerativeClustering
 import multiprocessing as mp
 
+script_dir = "/".join(os.path.dirname(os.path.realpath(__file__)).split('/')[:-1])
+
 def smooth(x, window_len=13, window='hanning'):
     s = np.r_[[x[0]]*(window_len//2), x, [x[-1]]*(window_len//2)]
     if window == 'flat': #moving average
@@ -67,8 +69,8 @@ def calc_lddt_dist(args):
     pose_i = pose_s[i]
     pose_j = pose_s[j]
     #
-    lddt_1 = float(os.popen("/home/minkbaek/bin/lddt -c %s %s | grep Glob"%(pose_i, pose_j)).readlines()[-1].split()[-1])
-    lddt_2 = float(os.popen("/home/minkbaek/bin/lddt -c %s %s | grep Glob"%(pose_j, pose_i)).readlines()[-1].split()[-1])
+    lddt_1 = float(os.popen("%s/lddt/lddt -c %s %s | grep Glob"%(script_dir, pose_i, pose_j)).readlines()[-1].split()[-1])
+    lddt_2 = float(os.popen("%s/lddt/lddt -c %s %s | grep Glob"%(script_dir, pose_j, pose_i)).readlines()[-1].split()[-1])
     lddt = (lddt_1 + lddt_2) / 2.0
     return 1 - lddt
 

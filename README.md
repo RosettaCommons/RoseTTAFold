@@ -20,7 +20,7 @@ While the code is licensed under the MIT License, the trained weights and data f
 
 ```
 wget https://files.ipd.uw.edu/pub/RoseTTAFold/weights.tar.gz
-tar xf weights.tar.gz
+tar xfz weights.tar.gz
 ```
 
 4. download and install third-party software if you want to run the entire modeling script (run_pyrosetta_ver.sh)
@@ -33,16 +33,16 @@ tar xf weights.tar.gz
 # uniref30 [46G]
 wget http://wwwuser.gwdg.de/~compbiol/uniclust/2020_06/UniRef30_2020_06_hhsuite.tar.gz
 mkdir -p UniRef30_2020_06
-tar xf UniRef30_2020_06_hhsuite.tar.gz -C ./UniRef30_2020_06
+tar xfz UniRef30_2020_06_hhsuite.tar.gz -C ./UniRef30_2020_06
 
 # BFD [272G]
 wget https://bfd.mmseqs.com/bfd_metaclust_clu_complete_id30_c90_final_seq.sorted_opt.tar.gz
 mkdir -p bfd
-tar xf bfd_metaclust_clu_complete_id30_c90_final_seq.sorted_opt.tar.gz -C ./bfd
+tar xfz bfd_metaclust_clu_complete_id30_c90_final_seq.sorted_opt.tar.gz -C ./bfd
 
 # structure templates [8.3G]
 wget https://files.ipd.uw.edu/pub/RoseTTAFold/pdb100_2021Mar03.tar.gz
-tar xf pdb100_2021Mar03.tar.gz
+tar xfz pdb100_2021Mar03.tar.gz
 ```
 
 Obtain a [PyRosetta licence](https://els2.comotion.uw.edu/product/pyrosetta) and install the package in the newly created `folding` conda environment ([link](http://www.pyrosetta.org/downloads)).
@@ -51,9 +51,13 @@ Obtain a [PyRosetta licence](https://els2.comotion.uw.edu/product/pyrosetta) and
 ## Usage
 
 ```
-mkdir -p example/
-./run_pipeline.sh example/input.fa example/
+cd example
+../run_[pyrosetta, e2e]_ver.sh input.fa .
 ```
+
+## Expected outputs
+For the pyrosetta version, user will get five final models having estimated CA rms error at the B-factor column (model/model_[1-5].crderr.pdb).
+For the end-to-end version, there will be a single PDB output having estimated residue-wise CA-lddt at the B-factor column (t000_.e2e.pdb).
 
 ## Links
 
