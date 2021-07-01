@@ -1,0 +1,7 @@
+name: folding
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - tensorflow=1.14
+  - pandas
