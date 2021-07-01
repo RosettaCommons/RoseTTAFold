@@ -85,10 +85,6 @@ fold_params = {
 
 fold_params["SG"] = fold_params["SG9"]
 
-FFDB = "/projects/ml/TrRosetta/pdb100_2020Mar11/pdb100_2020Mar11"
-FFindexDB = namedtuple("FFindexDB", "index, data")
-ffdb = FFindexDB(read_index(FFDB+'_pdb.ffindex'),
-                 read_data(FFDB+'_pdb.ffdata'))
 class Predictor():
     def __init__(self, model_dir=None, device="cuda:0"):
         if model_dir == None:
