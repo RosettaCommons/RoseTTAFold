@@ -10,7 +10,7 @@ git clone https://github.com/RosettaCommons/RoseTTAFold
 cd RoseTTAFold
 ```
 
-2. create conda environment using `RoseTTAFold-linux.yml` file and `folding-linux.yml` file. The latter required to run pyrosetta version only (run_pyrosetta_ver.sh).
+2. create conda environment using `RoseTTAFold-linux.yml` file and `folding-linux.yml` file. The latter is required to run a pyrosetta version only (run_pyrosetta_ver.sh).
 ```
 conda env create -f RoseTTAFold-linux.yml
 conda env create -f folding-linux.yml
@@ -46,8 +46,7 @@ wget https://files.ipd.uw.edu/pub/RoseTTAFold/pdb100_2021Mar03.tar.gz
 tar xfz pdb100_2021Mar03.tar.gz
 ```
 
-Obtain a [PyRosetta licence](https://els2.comotion.uw.edu/product/pyrosetta) and install the package in the newly created `folding` conda environment ([link](http://www.pyrosetta.org/downloads)).
-
+6. Obtain a [PyRosetta licence](https://els2.comotion.uw.edu/product/pyrosetta) and install the package in the newly created `folding` conda environment ([link](http://www.pyrosetta.org/downloads)).
 
 ## Usage
 
@@ -60,7 +59,14 @@ cd example
 For the pyrosetta version, user will get five final models having estimated CA rms error at the B-factor column (model/model_[1-5].crderr.pdb).
 For the end-to-end version, there will be a single PDB output having estimated residue-wise CA-lddt at the B-factor column (t000_.e2e.pdb).
 
-## Links
+## FAQ
+1. segmentation fault while running hhblits/hhsearch
+For easy install, we used a statically compiled version of hhsuite (installed through conda). Currently, we're not sure what exactly causes segmentation fault error in some cases, but we found that it might be resolved if you compile hhsuite from source and use this compiled version instead of conda version. For installation of hhsuite, please see [here](https://github.com/soedinglab/hh-suite).
+
+2. Submitting jobs to computing nodes
+The modeling pipeline provided here (run_pyrosetta_ver.sh/run_e2e_ver.sh) is a kind of guidelines to show how RoseTTAFold works. For more efficient use of computing resources, you might want to modify the provided bash script to submit separate jobs with proper dependencies for each of steps (more cpus/memory for hhblits/hhsearch, using gpus only for running the networks, etc). 
+
+## Links:
 
 * [Robetta server](https://robetta.bakerlab.org/) (RoseTTAFold option)
 
