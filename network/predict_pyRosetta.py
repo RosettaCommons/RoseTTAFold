@@ -104,7 +104,7 @@ class Predictor():
                 prob_s = [np.zeros((L,L,NBIN[i]), dtype=np.float32) for  i in range(4)]
                 count = np.zeros((L,L), dtype=np.float32)
                 #
-                grids = np.arange(0, L-wnindow+shift, shift)
+                grids = np.arange(0, L-window+shift, shift)
                 ngrids = grids.shape[0]
                 print("ngrid:     ", ngrids)
                 print("grids:     ", grids)

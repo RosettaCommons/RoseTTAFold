@@ -12,7 +12,6 @@ dependencies:
   - biocore::blast-legacy=2.2.26
   - hhsuite
   - psipred=4.01
-  - parallel
   - _libgcc_mutex=0.1=main
   - _openmp_mutex=4.5=1_gnu
   - blas=1.0=mkl
