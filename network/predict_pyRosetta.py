@@ -49,7 +49,7 @@ SE3_param = {
 MODEL_PARAM['SE3_param'] = SE3_param
 
 class Predictor():
-    def __init__(self, model_dir=None, device="cuda:0"):
+    def __init__(self, model_dir=None):
         if model_dir == None:
             self.model_dir = "%s/models"%(os.path.dirname(os.path.realpath(__file__)))
         else:
@@ -57,7 +57,10 @@ class Predictor():
         #
         # define model name
         self.model_name = "RoseTTAFold"
-        self.device = device
+        if torch.cuda.is_available():
+            self.device = torch.device("cuda")
+        else:
+            self.device = torch.device("cpu")
         self.active_fn = nn.Softmax(dim=1)
 
         # define model & load model
