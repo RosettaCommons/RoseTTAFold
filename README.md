@@ -12,7 +12,13 @@ cd RoseTTAFold
 
 2. create conda environment using `RoseTTAFold-linux.yml` file and `folding-linux.yml` file. The latter is required to run a pyrosetta version only (run_pyrosetta_ver.sh).
 ```
+# create conda environment for RoseTTAFold
+#   If your NVIDIA driver compatible with cuda11
 conda env create -f RoseTTAFold-linux.yml
+#   If not (but compatible with cuda10)
+conda env create -f RoseTTAFold-linux-cu101.yml
+
+# create conda environment for pyRosetta folding & running DeepAccNet
 conda env create -f folding-linux.yml
 ```
 
