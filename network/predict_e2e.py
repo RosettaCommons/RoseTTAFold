@@ -86,7 +86,7 @@ fold_params = {
 fold_params["SG"] = fold_params["SG9"]
 
 class Predictor():
-    def __init__(self, model_dir=None, device="cuda:0"):
+    def __init__(self, model_dir=None, use_cpu=False):
         if model_dir == None:
             self.model_dir = "%s/models"%(os.path.dirname(os.path.realpath(__file__)))
         else:
@@ -94,7 +94,10 @@ class Predictor():
         #
         # define model name
         self.model_name = "RoseTTAFold"
-        self.device = device
+        if torch.cuda.is_available() and (not use_cpu):
+            self.device = torch.device("cuda")
+        else:
+            self.device = torch.device("cpu")
         self.active_fn = nn.Softmax(dim=1)
 
         # define model & load model
@@ -263,6 +266,7 @@ def get_args():
                         help="HHsearch output file (atab file)")
     parser.add_argument("--db", default="%s/pdb100_2021Mar03/pdb100_2021Mar03"%script_dir,
                         help="Path to template database [%s/pdb100_2021Mar03]"%script_dir)
+    parser.add_argument("--cpu", dest='use_cpu', default=False, action='store_true')
 
     args = parser.parse_args()
     return args
@@ -275,5 +279,5 @@ if __name__ == "__main__":
                      read_data(FFDB+'_pdb.ffdata'))
 
     if not os.path.exists("%s.npz"%args.out_prefix):
-        pred = Predictor(model_dir=args.model_dir)
+        pred = Predictor(model_dir=args.model_dir, use_cpu=args.use_cpu)
         pred.predict(args.a3m_fn, args.out_prefix, args.hhr, args.atab)
