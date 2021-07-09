@@ -133,10 +133,18 @@ class Refine_module(nn.Module):
         edge = self.proj_edge(edge)
 
         xyz, state = self.regen_net(seq1hot, idx, node, edge)
-        
-        best_xyz = None
-        best_lddt = torch.zeros((1,), device=xyz.device)
-        prev_lddt = 0
+       
+        # DOUBLE IT w/ Mirror images
+        xyz = torch.cat([xyz, xyz*torch.tensor([1,1,-1], dtype=xyz.dtype, device=xyz.device)])
+        state = torch.cat([state, state])
+        node = torch.cat([node, node])
+        edge = torch.cat([edge, edge])
+        idx = torch.cat([idx, idx])
+        seq1hot = torch.cat([seq1hot, seq1hot])
+
+        best_xyz = xyz
+        best_lddt = torch.zeros((xyz.shape[0], xyz.shape[1], 1), device=xyz.device)
+        prev_lddt = 0.0
         no_impr = 0
         no_impr_best = 0
         for i_iter in range(200):
@@ -147,20 +155,21 @@ class Refine_module(nn.Module):
                     xyz, state = self.refine_net[i_m](node.float(), edge.float(), xyz.detach().float(), state.float(), seq1hot, idx, top_k=64)
             #
             lddt = self.pred_lddt(self.norm_state(state)) 
-            lddt = torch.clamp(lddt, 0.0, 1.0)
-            print ("SE(3) iteration", i_iter, lddt.mean(), prev_lddt, best_lddt.mean(), no_impr), no_impr_best
-            if lddt.mean() <= prev_lddt+eps:
+            lddt = torch.clamp(lddt, 0.0, 1.0)[...,0]
+            print (f"SE(3) iteration {i_iter} {lddt.mean(-1).cpu().numpy()}")
+            if lddt.mean(-1).max() <= prev_lddt+eps:
                 no_impr += 1
             else:
                 no_impr = 0
-            if lddt.mean() <= best_lddt.mean()+eps:
+            if lddt.mean(-1).max() <= best_lddt.mean(-1).max()+eps:
                 no_impr_best += 1
             else:
                 no_impr_best = 0
             if no_impr > 10 or no_impr_best > 20:
                 break
-            if lddt.mean() > best_lddt.mean():
+            if lddt.mean(-1).max() > best_lddt.mean(-1).max():
                 best_lddt = lddt
                 best_xyz = xyz
-            prev_lddt = lddt.mean()
-        return best_xyz, best_lddt
+            prev_lddt = lddt.mean(-1).max()
+        pick = best_lddt.mean(-1).argmax()
+        return best_xyz[pick][None], best_lddt[pick][None]
