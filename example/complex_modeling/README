@@ -1,0 +1,26 @@
+** How to prepare inputs for complex modeling **
+
+1. Generate multiple sequence alignments for each subunit
+
+2. Make paired alignments
+   - It is important to generate "good" paired sequence alignments to extract coevolution signal properly.
+   - For bacterial proteins, you may use "make_joint_MSA_bacterial.py" script to generate paired alignments. It pairs the sequences having similar UniProt accession code.
+   - For eukaryotes, there's no easy way to generate paired alignments. Good luck!
+
+3. Filter the paired alignment using hhfilter
+   - hhfilter -i paired.a3m -o filtered.a3m -id 90 (or 95) -cov 75 (or 50)
+
+3. If you want to incorporate complex template information, please make npz
+file that contains input template features for RoseTTAFold. It should contain
+the following keys ("xyz_t", "t1d", "t0d").
+   - xyz_t: N, CA, C coordinates of complex templates (# of templ, # of residue, 3 (for N, Ca, C), 3 (xyz coord))
+            For the unaligned region, it should be NaN.
+   - t1d: 1-D features from HHsearch results (score, SS, probab column from atab file) (T, L, 3).
+          For the unaligned region, it should be zeros
+   - t0d: 0-D features from HHsearch (Probability/100.0, Ideintities/100.0, Similarity fro hhr file) (T, 3)
+
+4. Run complex structure prediction
+python network/predict_complex.py -i filtered.a3m -o complex -Ls 218 310 
+
+5. You may want to run Rosetta fastrelax w/ coordinate restraints to add sidechains.
+
