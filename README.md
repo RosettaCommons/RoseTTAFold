@@ -81,6 +81,7 @@ The modeling pipeline provided here (run_pyrosetta_ver.sh/run_e2e_ver.sh) is a k
 ## Links:
 
 * [Robetta server](https://robetta.bakerlab.org/) (RoseTTAFold option)
+* [RoseTTAFold models for CASP14 targets](http://files.ipd.uw.edu/pub/RoseTTAFold/casp14_models.tar.gz)
 
 ## Credit to performer-pytorch and SE(3)-Transformer codes
 The code in the network/performer_pytorch.py is strongly based on [this repo](https://github.com/lucidrains/performer-pytorch) which is pytorch implementation of [Performer architecture](https://arxiv.org/abs/2009.14794).
