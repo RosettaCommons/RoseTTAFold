@@ -1,16 +1,16 @@
 # *RoseTTAFold* 
-This package contains deep learning models and related scripts to run RoseTTAFold
+This package contains deep learning models and related scripts to run RoseTTAFold.  
 This repository is the official implementation of RoseTTAFold: Accurate prediction of protein structures and interactions using a 3-track network.
 
 ## Installation
 
-1. clone the package
+1. Clone the package
 ```
 git clone https://github.com/RosettaCommons/RoseTTAFold
 cd RoseTTAFold
 ```
 
-2. create conda environment using `RoseTTAFold-linux.yml` file and `folding-linux.yml` file. The latter is required to run a pyrosetta version only (run_pyrosetta_ver.sh).
+2. Create conda environment using `RoseTTAFold-linux.yml` file and `folding-linux.yml` file. The latter is required to run a pyrosetta version only (run_pyrosetta_ver.sh).
 ```
 # create conda environment for RoseTTAFold
 #   If your NVIDIA driver compatible with cuda11
@@ -22,7 +22,7 @@ conda env create -f RoseTTAFold-linux-cu101.yml
 conda env create -f folding-linux.yml
 ```
 
-3. download network weights (under Rosetta-DL Software license -- please see below)
+3. Download network weights (under Rosetta-DL Software license -- please see below)  
 While the code is licensed under the MIT License, the trained weights and data for RoseTTAFold are made available for non-commercial use only under the terms of the Rosetta-DL Software license. You can find details at https://files.ipd.uw.edu/pub/RoseTTAFold/Rosetta-DL_LICENSE.txt
 
 ```
@@ -30,12 +30,12 @@ wget https://files.ipd.uw.edu/pub/RoseTTAFold/weights.tar.gz
 tar xfz weights.tar.gz
 ```
 
-4. download and install third-party software if you want to run the entire modeling script (run_pyrosetta_ver.sh)
+4. Download and install third-party software if you want to run the entire modeling script (run_pyrosetta_ver.sh)
 ```
 ./install_dependencies.sh
 ```
 
-5. download sequence and structure databases
+5. Download sequence and structure databases
 ```
 # uniref30 [46G]
 wget http://wwwuser.gwdg.de/~compbiol/uniclust/2020_06/UniRef30_2020_06_hhsuite.tar.gz
@@ -68,14 +68,14 @@ python network/predict_complex.py -i paired.a3m -o complex -Ls 218 310
 ```
 
 ## Expected outputs
-For the pyrosetta version, user will get five final models having estimated CA rms error at the B-factor column (model/model_[1-5].crderr.pdb).
+For the pyrosetta version, user will get five final models having estimated CA rms error at the B-factor column (model/model_[1-5].crderr.pdb).  
 For the end-to-end version, there will be a single PDB output having estimated residue-wise CA-lddt at the B-factor column (t000_.e2e.pdb).
 
 ## FAQ
-1. segmentation fault while running hhblits/hhsearch
+1. Segmentation fault while running hhblits/hhsearch  
 For easy install, we used a statically compiled version of hhsuite (installed through conda). Currently, we're not sure what exactly causes segmentation fault error in some cases, but we found that it might be resolved if you compile hhsuite from source and use this compiled version instead of conda version. For installation of hhsuite, please see [here](https://github.com/soedinglab/hh-suite).
 
-2. Submitting jobs to computing nodes
+2. Submitting jobs to computing nodes  
 The modeling pipeline provided here (run_pyrosetta_ver.sh/run_e2e_ver.sh) is a kind of guidelines to show how RoseTTAFold works. For more efficient use of computing resources, you might want to modify the provided bash script to submit separate jobs with proper dependencies for each of steps (more cpus/memory for hhblits/hhsearch, using gpus only for running the networks, etc). 
 
 ## Links:
