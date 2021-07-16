@@ -6,7 +6,7 @@ This repository is the official implementation of RoseTTAFold: Accurate predicti
 
 1. clone the package
 ```
-git clone https://github.com/RosettaCommons/RoseTTAFold
+git clone https://github.com/RosettaCommons/RoseTTAFold.git
 cd RoseTTAFold
 ```
 
