@@ -10,6 +10,7 @@ import util
 from collections import namedtuple
 from ffindex import *
 from kinematics import xyz_to_c6d, c6d_to_bins2, xyz_to_t2d
+from trFold import TRFold
 
 script_dir = '/'.join(os.path.dirname(os.path.realpath(__file__)).split('/')[:-1])
 
@@ -222,7 +223,39 @@ class Predictor():
                             omega=prob_s[1].astype(np.float16),\
                             theta=prob_s[2].astype(np.float16),\
                             phi=prob_s[3].astype(np.float16))
-        self.write_pdb(seq[0], xyz[0], idx_pdb[0], Bfacts=lddt[0], prefix="%s"%(out_prefix))
+        
+        self.write_pdb(seq[0], xyz[0], idx_pdb[0], Bfacts=lddt[0], prefix="%s_init"%(out_prefix))
+        
+        # run TRFold
+        prob_trF = list()
+        for prob in prob_s:
+            prob = torch.tensor(prob).permute(2,0,1).to(self.device)
+            prob += 1e-8
+            prob = prob / torch.sum(prob, dim=0)[None]
+            prob_trF.append(prob)
+        xyz = xyz[0, :, 1]
+        TRF = TRFold(prob_trF, fold_params)
+        xyz = TRF.fold(xyz, batch=15, lr=0.1, nsteps=200)
+        xyz = xyz.detach().cpu().numpy()
+        # add O and Cb
+        N = xyz[:,0,:]
+        CA = xyz[:,1,:]
+        C = xyz[:,2,:]
+        O = self.extend(np.roll(N, -1, axis=0), CA, C, 1.231, 2.108, -3.142)
+        xyz = np.concatenate((xyz, O[:,None,:]), axis=1)
+        self.write_pdb(seq[0], xyz, idx_pdb[0], Bfacts=lddt[0], prefix=out_prefix)
+
+    def extend(self, a,b,c, L,A,D):
+        '''
+        input:  3 coords (a,b,c), (L)ength, (A)ngle, and (D)ihedral
+        output: 4th coord
+        '''
+        N = lambda x: x/np.sqrt(np.square(x).sum(-1,keepdims=True) + 1e-8)
+        bc = N(b-c)
+        n = N(np.cross(b-a, bc))
+        m = [bc,np.cross(n,bc),n]
+        d = [L*np.cos(A), L*np.sin(A)*np.cos(D), -L*np.sin(A)*np.sin(D)]
+        return c + sum([m*d for m,d in zip(m,d)])
 
     def write_pdb(self, seq, atoms, idx, Bfacts=None, prefix=None):
         L = len(seq)
@@ -244,6 +277,14 @@ class Predictor():
 
                 elif atoms.shape[1]==3:
                     for j,atm_j in enumerate((" N  "," CA "," C  ")):
+                        f.write ("%-6s%5s %4s %3s %s%4d    %8.3f%8.3f%8.3f%6.2f%6.2f\n"%(
+                                "ATOM", ctr, atm_j, util.num2aa[s], 
+                                "A", idx[i]+1, atoms[i,j,0], atoms[i,j,1], atoms[i,j,2],
+                                1.0, Bfacts[i] ) )
+                        ctr += 1                
+                
+                elif atoms.shape[1]==4:
+                    for j,atm_j in enumerate((" N  "," CA "," C  ", " O  ")):
                         f.write ("%-6s%5s %4s %3s %s%4d    %8.3f%8.3f%8.3f%6.2f%6.2f\n"%(
                                 "ATOM", ctr, atm_j, util.num2aa[s], 
                                 "A", idx[i]+1, atoms[i,j,0], atoms[i,j,1], atoms[i,j,2],
