@@ -115,7 +115,7 @@ count=$(find $WDIR/pdb-3track -maxdepth 1 -name '*.npz' | grep -v 'features' | w
 if [ "$count" -lt "15" ]; then
     # run DeepAccNet-msa
     echo "Running DeepAccNet-msa"
-    python $PIPEDIR/DAN-msa/ErrorPredictorMSA.py --roll -g $GPU_ID -p $CPU $WDIR/t000_.3track.npz $WDIR/pdb-3track $WDIR/pdb-3track 1> $WDIR/log/DAN_msa.stdout 2> $WDIR/log/DAN_msa.stderr
+    python $PIPEDIR/DAN-msa/ErrorPredictorMSA.py --roll -p $CPU $WDIR/t000_.3track.npz $WDIR/pdb-3track $WDIR/pdb-3track 1> $WDIR/log/DAN_msa.stdout 2> $WDIR/log/DAN_msa.stderr
 fi
 
 if [ ! -s $WDIR/model/model_5.crderr.pdb ]
