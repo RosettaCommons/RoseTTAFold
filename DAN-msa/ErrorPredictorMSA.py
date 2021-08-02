@@ -114,6 +114,7 @@ def main():
     ##############################
     os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
     if args.gpu is not None:
+        assert type(args.gpu) == int, 'GPU id must be specified as int, e.g. 0'
         os.environ["CUDA_VISIBLE_DEVICES"] = str(args.gpu)
     script_dir = os.path.dirname(__file__)
     sys.path.insert(0, script_dir)
