@@ -15,7 +15,7 @@ unset __conda_setup
 SCRIPT=`realpath -s $0`
 export PIPEDIR=`dirname $SCRIPT`
 
-GPU_ID="" # which gpu to use (int), for example 0 for gpu0
+GPU_ID="" # which gpu to use (int), for example 0 for gpu0. if none provided, it will let CUDA decide
 CPU="8"  # number of CPUs to use
 MEM="64" # max memory (in GB)
 
