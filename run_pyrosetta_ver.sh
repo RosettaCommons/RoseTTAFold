@@ -15,6 +15,7 @@ unset __conda_setup
 SCRIPT=`realpath -s $0`
 export PIPEDIR=`dirname $SCRIPT`
 
+GPU_ID="" # which gpu to use (int), for example 0 for gpu0
 CPU="8"  # number of CPUs to use
 MEM="64" # max memory (in GB)
 
@@ -22,6 +23,10 @@ MEM="64" # max memory (in GB)
 IN="$1"                # input.fasta
 WDIR=`realpath -s $2`  # working folder
 
+if [ ! -z "$GPU_ID" ]
+  then
+    export CUDA_VISIBLE_DEVICES=$GPU_ID
+fi
 
 LEN=`tail -n1 $IN | wc -m`
 
@@ -110,7 +115,7 @@ count=$(find $WDIR/pdb-3track -maxdepth 1 -name '*.npz' | grep -v 'features' | w
 if [ "$count" -lt "15" ]; then
     # run DeepAccNet-msa
     echo "Running DeepAccNet-msa"
-    python $PIPEDIR/DAN-msa/ErrorPredictorMSA.py --roll -p $CPU $WDIR/t000_.3track.npz $WDIR/pdb-3track $WDIR/pdb-3track 1> $WDIR/log/DAN_msa.stdout 2> $WDIR/log/DAN_msa.stderr
+    python $PIPEDIR/DAN-msa/ErrorPredictorMSA.py --roll -g $GPU_ID -p $CPU $WDIR/t000_.3track.npz $WDIR/pdb-3track $WDIR/pdb-3track 1> $WDIR/log/DAN_msa.stdout 2> $WDIR/log/DAN_msa.stderr
 fi
 
 if [ ! -s $WDIR/model/model_5.crderr.pdb ]
