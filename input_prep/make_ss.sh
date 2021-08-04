@@ -5,10 +5,10 @@ echo $DATADIR
 
 i_a3m="$1"
 o_ss="$2"
-
+csblast_dir="$3"
 ID=$(basename $i_a3m .a3m).tmp
 
-$PIPEDIR/csblast-2.2.3/bin/csbuild -i $i_a3m -I a3m -D $PIPEDIR/csblast-2.2.3/data/K4000.crf -o $ID.chk -O chk
+$csblast_dir/bin/csbuild -i $i_a3m -I a3m -D $csblast_dir/data/K4000.crf -o $ID.chk -O chk
 
 head -n 2 $i_a3m > $ID.fasta
 echo $ID.chk > $ID.pn
