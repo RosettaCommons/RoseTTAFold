@@ -20,7 +20,9 @@ the following keys ("xyz_t", "t1d", "t0d").
    - t0d: 0-D features from HHsearch (Probability/100.0, Ideintities/100.0, Similarity fro hhr file) (T, 3)
 
 4. Run complex structure prediction
-python network/predict_complex.py -i filtered.a3m -o complex -Ls 218 310 
+   - python network/predict_complex.py -i filtered.a3m -o complex -Ls 218 310 
+   - Set the numeric parameters after -Ls argument to the lengths of each individual subunit, in the order that they were paired.
+      - In this example, the aa length of subunit1 was 218, subunit2 was 310.
 
 5. You may want to run Rosetta fastrelax w/ coordinate restraints to add sidechains.
 
