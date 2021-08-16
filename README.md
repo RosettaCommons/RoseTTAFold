@@ -30,7 +30,7 @@ wget https://files.ipd.uw.edu/pub/RoseTTAFold/weights.tar.gz
 tar xfz weights.tar.gz
 ```
 
-4. Download and install third-party software if you want to run the entire modeling script (run_pyrosetta_ver.sh)
+4. Download and install third-party software.
 ```
 ./install_dependencies.sh
 ```
