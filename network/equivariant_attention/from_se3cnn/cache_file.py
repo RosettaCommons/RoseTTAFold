@@ -70,7 +70,8 @@ def cached_dirpklgz(dirname, maxsize=128):
                 pass
 
             indexfile = os.path.join(dirname, "index.pkl")
-            mutexfile = os.path.join(dirname, "mutex")
+            mutexfile = "cache_mutex"
+            #mutexfile = os.path.join(dirname, "mutex")
 
             with FileSystemMutex(mutexfile):
                 try:
