@@ -115,7 +115,7 @@ class Predictor():
         self.model.load_state_dict(checkpoint['model_state_dict'], strict=True)
         return True
     
-    def predict(self, a3m_fn, out_prefix, Ls, templ_npz=None, window=1000, shift=100):
+    def predict(self, a3m_fn, out_prefix, Ls, templ_npz=None, window=200, shift=100):
         msa = parse_a3m(a3m_fn)
         N, L = msa.shape
         #
