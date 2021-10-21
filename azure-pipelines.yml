@@ -26,12 +26,24 @@ stages:
       clean: all # what to clean up before the job runs
     pool: Custom
     steps:
+
     - task: Docker@2
       inputs:
         containerRegistry: 'neoleukin-container-registry'
         repository: 'rosettafold'
-        command: 'buildAndPush'
-        arguments: --secret ROSETTACOMMONS_CONDA_USERNAME=$(ROSETTACOMMONS_CONDA_USERNAME)  ROSETTACOMMONS_CONDA_PASSWORD=$(ROSETTACOMMONS_CONDA_PASSWORD)
+        command: 'build'
+        arguments: --build-arg ROSETTACOMMONS_CONDA_USERNAME=$(ROSETTACOMMONS_CONDA_USERNAME) --build-arg ROSETTACOMMONS_CONDA_PASSWORD=$(ROSETTACOMMONS_CONDA_PASSWORD)
+        Dockerfile: 'Dockerfile'
+        tags: |
+          $(Build.SourceBranchName)-$(Build.BuildId)
+          $(Build.SourceBranchName)-$(Build.SourceVersion)
+          $(Build.SourceBranchName)-latest
+          $(Build.SourceBranchName) 
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'neoleukin-container-registry'
+        repository: 'rosettafold'
+        command: 'push'
         Dockerfile: 'Dockerfile'
         tags: |
           $(Build.SourceBranchName)-$(Build.BuildId)
