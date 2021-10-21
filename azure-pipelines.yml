@@ -31,6 +31,7 @@ stages:
         containerRegistry: 'neoleukin-container-registry'
         repository: 'rosettafold'
         command: 'buildAndPush'
+        arguments: --secret ROSETTACOMMONS_CONDA_USERNAME=$(ROSETTACOMMONS_CONDA_USERNAME)  ROSETTACOMMONS_CONDA_PASSWORD=$(ROSETTACOMMONS_CONDA_PASSWORD)
         Dockerfile: 'Dockerfile'
         tags: |
           $(Build.SourceBranchName)-$(Build.BuildId)
