@@ -23,7 +23,7 @@ WORKDIR /RoseTTaFold
 RUN conda env create -f RoseTTAFold-linux.yml
 RUN conda env create -f folding-linux.yml
 
-RUN conda config --add channels https://ROSETTACOMMONS_CONDA_USERNAME:ROSETTACOMMONS_CONDA_PASSWORD@conda.graylab.jhu.edu
+RUN conda config --add channels https://${ROSETTACOMMONS_CONDA_USERNAME}:${ROSETTACOMMONS_CONDA_PASSWORD}@conda.graylab.jhu.edu
 #installing pyrosetta into a base image so it gets cached between builds
 RUN conda install -n folding pyrosetta=2020.45
 
