@@ -17,7 +17,6 @@ resources:
   - repo: self
 
 stages:
-
 - stage: build
   dependsOn: []    # this removes the implicit dependency on previous stage and causes this to run in parallel
   jobs:
@@ -25,6 +24,7 @@ stages:
     workspace:
       clean: all # what to clean up before the job runs
     pool: Custom
+    timeoutInMinutes: 90
     steps:
 
     - task: Docker@2
