@@ -2,8 +2,8 @@ FROM nvcr.io/nvidia/cuda:11.4.1-cudnn8-runtime-ubuntu20.04
 ARG ROSETTACOMMONS_CONDA_USERNAME
 ARG ROSETTACOMMONS_CONDA_PASSWORD
 
-ENV PATH="/root/miniconda3/bin:${PATH}"
-ARG PATH="/root/miniconda3/bin:${PATH}"
+ENV PATH="/var/miniconda3/bin:${PATH}"
+ARG PATH="/var/miniconda3/bin:${PATH}"
 
 
 RUN apt-get update
@@ -12,7 +12,7 @@ RUN apt-get install -y wget libgomp1 && rm -rf /var/lib/apt/lists/*
 
 RUN wget \
     https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
-    && mkdir /root/.conda \
+    && mkdir /var/conda \
     && bash Miniconda3-latest-Linux-x86_64.sh -b \
     && rm -f Miniconda3-latest-Linux-x86_64.sh 
 RUN conda --version
