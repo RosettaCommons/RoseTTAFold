@@ -14,7 +14,10 @@ RUN wget \
     https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
     && mkdir /var/conda \
     && bash Miniconda3-latest-Linux-x86_64.sh -b \
-    && rm -f Miniconda3-latest-Linux-x86_64.sh 
+    && rm -f Miniconda3-latest-Linux-x86_64.sh
+
+ENV PATH /opt/conda/bin:$PATH
+
 RUN conda --version
 
 COPY . /RoseTTaFold
