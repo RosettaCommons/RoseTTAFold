@@ -28,7 +28,7 @@ RUN conda install -n folding pyrosetta=2020.45
 RUN wget -q https://files.ipd.uw.edu/pub/RoseTTAFold/weights.tar.gz
 RUN tar xfz weights.tar.gz
 RUN ./install_dependencies.sh
-RUN ln -s /RoseTTaFold/run_e2e_ver.sh /usr/local/bin/run_e2e_ver.sh
-RUN ln -s /RoseTTaFold/run_pyrosetta_ver.sh /usr/local/bin/run_pyrosetta_ver.sh
+
+ENV PATH /RoseTTaFold:$PATH
 
 WORKDIR /tmp
