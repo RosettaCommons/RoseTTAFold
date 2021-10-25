@@ -29,7 +29,7 @@ stages:
 
     - task: Docker@2
       inputs:
-        containerRegistry: 'neoleukin-container-registry'
+        containerRegistry: $(ACR_CONTAINER_REGISTRY)
         repository: 'rosettafold'
         command: 'build'
         arguments: --build-arg ROSETTACOMMONS_CONDA_USERNAME=$(ROSETTACOMMONS_CONDA_USERNAME) --build-arg ROSETTACOMMONS_CONDA_PASSWORD=$(ROSETTACOMMONS_CONDA_PASSWORD)
@@ -41,7 +41,7 @@ stages:
           $(Build.SourceBranchName) 
     - task: Docker@2
       inputs:
-        containerRegistry: 'neoleukin-container-registry'
+        containerRegistry: $(ACR_CONTAINER_REGISTRY)
         repository: 'rosettafold'
         command: 'push'
         Dockerfile: 'Dockerfile'
