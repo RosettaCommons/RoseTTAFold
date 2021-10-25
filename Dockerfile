@@ -6,7 +6,7 @@ RUN apt-get update
 
 RUN apt-get install -y wget libgomp1 && rm -rf /var/lib/apt/lists/*
 
-RUN wget \
+RUN wget -q \
     https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
     && bash Miniconda3-latest-Linux-x86_64.sh -b -p /var/conda\
     && rm -f Miniconda3-latest-Linux-x86_64.sh
@@ -25,7 +25,7 @@ RUN conda config --add channels https://${ROSETTACOMMONS_CONDA_USERNAME}:${ROSET
 #installing pyrosetta into a base image so it gets cached between builds
 RUN conda install -n folding pyrosetta=2020.45
 
-RUN wget https://files.ipd.uw.edu/pub/RoseTTAFold/weights.tar.gz
+RUN wget -q https://files.ipd.uw.edu/pub/RoseTTAFold/weights.tar.gz
 RUN tar xfz weights.tar.gz
 RUN ./install_dependencies.sh
 RUN ln -s /RoseTTaFold/run_e2e_ver.sh /usr/local/bin/run_e2e_ver.sh
