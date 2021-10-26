@@ -4,7 +4,7 @@ ARG ROSETTACOMMONS_CONDA_PASSWORD
 
 RUN apt-get update
 
-RUN apt-get install -y wget libgomp1 && rm -rf /var/lib/apt/lists/*
+RUN apt-get install -y wget libgomp1 unzip && rm -rf /var/lib/apt/lists/*
 
 RUN wget -q \
     https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
