@@ -1,4 +1,4 @@
-FROM nvcr.io/nvidia/cuda:11.4.1-cudnn8-runtime-ubuntu20.04
+FROM nvcr.io/nvidia/cuda:11.3.0-cudnn8-runtime-ubuntu20.04
 ARG ROSETTACOMMONS_CONDA_USERNAME
 ARG ROSETTACOMMONS_CONDA_PASSWORD
 
