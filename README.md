@@ -25,11 +25,11 @@ conda env create -f folding-linux.yml
 3. Download network weights (under Rosetta-DL Software license -- please see below)  
 While the code is licensed under the MIT License, the trained weights and data for RoseTTAFold are made available for non-commercial use only under the terms of the Rosetta-DL Software license. You can find details at https://files.ipd.uw.edu/pub/RoseTTAFold/Rosetta-DL_LICENSE.txt
 
+[Update Nov/02/2021] It's now including the weights (RF2t.pt) for RoseTTAFold-2track model used for yeast PPI screening. If you want to use it, please re-download weights. The original RoseTTAFold weights are not changed.
+
 ```
 wget https://files.ipd.uw.edu/pub/RoseTTAFold/weights.tar.gz
 tar xfz weights.tar.gz
-
-[Update Nov/02/2021] It's now including the weights (RF2t.pt) for RoseTTAFold-2track model used for yeast PPI screening. If you want to use it, please re-download weights. The original RoseTTAFold weights are not changed.
 ```
 
 4. Download and install third-party software.
@@ -97,4 +97,5 @@ The codes in network/equivariant_attention is from the original SE(3)-Transforme
 ## References
 
 M. Baek, et al., Accurate prediction of protein structures and interactions using a three-tracki neural network, Science (2021). [link](https://www.science.org/doi/10.1126/science.abj8754)
+
 I.R. Humphreys, J. Pei, M. Baek, A. Krishnakumar, et al, Structures of core eukaryotic protein complexes, bioRxiv (2021). [link](https://www.biorxiv.org/content/10.1101/2021.09.30.462231v1)
