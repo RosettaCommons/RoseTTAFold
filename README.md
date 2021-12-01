@@ -96,6 +96,6 @@ The codes in network/equivariant_attention is from the original SE(3)-Transforme
 
 ## References
 
-M. Baek, et al., Accurate prediction of protein structures and interactions using a three-tracki neural network, Science (2021). [link](https://www.science.org/doi/10.1126/science.abj8754)
+M. Baek, et al., Accurate prediction of protein structures and interactions using a three-track neural network, Science (2021). [link](https://www.science.org/doi/10.1126/science.abj8754)
 
 I.R. Humphreys, J. Pei, M. Baek, A. Krishnakumar, et al, Computed structures of core eukaryotic protein complexes, Science (2021). [link](https://www.science.org/doi/10.1126/science.abm4805)
