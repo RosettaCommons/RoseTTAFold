@@ -15,8 +15,8 @@ unset __conda_setup
 SCRIPT=`realpath -s $0`
 export PIPEDIR=`dirname $SCRIPT`
 
-CPU="8"  # number of CPUs to use
-MEM="64" # max memory (in GB)
+CPU="${CPU:=8}"  # number of CPUs to use
+MEM="${MEM:=64}" # max memory (in GB)
 
 # Inputs:
 IN="$1"                # input.fasta
