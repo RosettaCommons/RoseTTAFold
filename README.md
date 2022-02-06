@@ -45,7 +45,7 @@ mkdir -p UniRef30_2020_06
 tar xfz UniRef30_2020_06_hhsuite.tar.gz -C ./UniRef30_2020_06
 
 # BFD [272G]
-wget https://bfd.mmseqs.com/bfd_metaclust_clu_complete_id30_c90_final_seq.sorted_opt.tar.gz
+wget https://storage.googleapis.com/alphafold-databases/casp14_versions/bfd_metaclust_clu_complete_id30_c90_final_seq.sorted_opt.tar.gz
 mkdir -p bfd
 tar xfz bfd_metaclust_clu_complete_id30_c90_final_seq.sorted_opt.tar.gz -C ./bfd
 
