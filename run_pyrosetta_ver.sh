@@ -15,6 +15,7 @@ unset __conda_setup
 SCRIPT=`realpath -s $0`
 export PIPEDIR=`dirname $SCRIPT`
 
+GPU_ID="" # which gpu to use (int), for example 0 for gpu0. if none provided, it will let CUDA decide
 CPU="8"  # number of CPUs to use
 MEM="64" # max memory (in GB)
 
@@ -22,6 +23,10 @@ MEM="64" # max memory (in GB)
 IN="$1"                # input.fasta
 WDIR=`realpath -s $2`  # working folder
 
+if [ ! -z "$GPU_ID" ]
+  then
+    export CUDA_VISIBLE_DEVICES=$GPU_ID
+fi
 
 LEN=`tail -n1 $IN | wc -m`
 
