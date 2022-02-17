@@ -21,6 +21,7 @@ MEM="64" # max memory (in GB)
 # Inputs:
 IN="$1"                # input.fasta
 WDIR=`realpath -s $2`  # working folder
+PREFIX=${1-t000_}      # prefix for the output files
 
 
 LEN=`tail -n1 $IN | wc -m`
@@ -31,7 +32,7 @@ conda activate RoseTTAFold
 ############################################################
 # 1. generate MSAs
 ############################################################
-if [ ! -s $WDIR/t000_.msa0.a3m ]
+if [ ! -s $WDIR/$PREFIX.msa0.a3m ]
 then
     echo "Running HHblits"
     $PIPEDIR/input_prep/make_msa.sh $IN $WDIR $CPU $MEM > $WDIR/log/make_msa.stdout 2> $WDIR/log/make_msa.stderr
@@ -41,10 +42,10 @@ fi
 ############################################################
 # 2. predict secondary structure for HHsearch run
 ############################################################
-if [ ! -s $WDIR/t000_.ss2 ]
+if [ ! -s $WDIR/$PREFIX.ss2 ]
 then
     echo "Running PSIPRED"
-    $PIPEDIR/input_prep/make_ss.sh $WDIR/t000_.msa0.a3m $WDIR/t000_.ss2 > $WDIR/log/make_ss.stdout 2> $WDIR/log/make_ss.stderr
+    $PIPEDIR/input_prep/make_ss.sh $WDIR/$PREFIX.msa0.a3m $WDIR/$PREFIX.ss2 > $WDIR/log/make_ss.stdout 2> $WDIR/log/make_ss.stderr
 fi
 
 
@@ -52,27 +53,27 @@ fi
 # 3. search for templates
 ############################################################
 DB="$PIPEDIR/pdb100_2021Mar03/pdb100_2021Mar03"
-if [ ! -s $WDIR/t000_.hhr ]
+if [ ! -s $WDIR/$PREFIX.hhr ]
 then
     echo "Running hhsearch"
     HH="hhsearch -b 50 -B 500 -z 50 -Z 500 -mact 0.05 -cpu $CPU -maxmem $MEM -aliw 100000 -e 100 -p 5.0 -d $DB"
-    cat $WDIR/t000_.ss2 $WDIR/t000_.msa0.a3m > $WDIR/t000_.msa0.ss2.a3m
-    $HH -i $WDIR/t000_.msa0.ss2.a3m -o $WDIR/t000_.hhr -atab $WDIR/t000_.atab -v 0 > $WDIR/log/hhsearch.stdout 2> $WDIR/log/hhsearch.stderr
+    cat $WDIR/$PREFIX.ss2 $WDIR/$PREFIX.msa0.a3m > $WDIR/$PREFIX.msa0.ss2.a3m
+    $HH -i $WDIR/$PREFIX.msa0.ss2.a3m -o $WDIR/$PREFIX.hhr -atab $WDIR/$PREFIX.atab -v 0 > $WDIR/log/hhsearch.stdout 2> $WDIR/log/hhsearch.stderr
 fi
 
 
 ############################################################
 # 4. predict distances and orientations
 ############################################################
-if [ ! -s $WDIR/t000_.3track.npz ]
+if [ ! -s $WDIR/$PREFIX.3track.npz ]
 then
     echo "Predicting distance and orientations"
     python $PIPEDIR/network/predict_pyRosetta.py \
         -m $PIPEDIR/weights \
-        -i $WDIR/t000_.msa0.a3m \
-        -o $WDIR/t000_.3track \
-        --hhr $WDIR/t000_.hhr \
-        --atab $WDIR/t000_.atab \
+        -i $WDIR/$PREFIX.msa0.a3m \
+        -o $WDIR/$PREFIX.3track \
+        --hhr $WDIR/$PREFIX.hhr \
+        --atab $WDIR/$PREFIX.atab \
         --db $DB 1> $WDIR/log/network.stdout 2> $WDIR/log/network.stderr
 fi
 
@@ -91,7 +92,7 @@ do
         for ((i=0;i<1;i++))
         do
             if [ ! -f $WDIR/pdb-3track/model${i}_${m}_${p}.pdb ]; then
-                echo "python -u $PIPEDIR/folding/RosettaTR.py --roll -r 3 -pd $p -m $m -sg 7,3 $WDIR/t000_.3track.npz $IN $WDIR/pdb-3track/model${i}_${m}_${p}.pdb"
+                echo "python -u $PIPEDIR/folding/RosettaTR.py --roll -r 3 -pd $p -m $m -sg 7,3 $WDIR/$PREFIX.3track.npz $IN $WDIR/pdb-3track/model${i}_${m}_${p}.pdb"
             fi
         done
     done
@@ -110,7 +111,7 @@ count=$(find $WDIR/pdb-3track -maxdepth 1 -name '*.npz' | grep -v 'features' | w
 if [ "$count" -lt "15" ]; then
     # run DeepAccNet-msa
     echo "Running DeepAccNet-msa"
-    python $PIPEDIR/DAN-msa/ErrorPredictorMSA.py --roll -p $CPU $WDIR/t000_.3track.npz $WDIR/pdb-3track $WDIR/pdb-3track 1> $WDIR/log/DAN_msa.stdout 2> $WDIR/log/DAN_msa.stderr
+    python $PIPEDIR/DAN-msa/ErrorPredictorMSA.py --roll -p $CPU $WDIR/$PREFIX.3track.npz $WDIR/pdb-3track $WDIR/pdb-3track 1> $WDIR/log/DAN_msa.stdout 2> $WDIR/log/DAN_msa.stderr
 fi
 
 if [ ! -s $WDIR/model/model_5.crderr.pdb ]
