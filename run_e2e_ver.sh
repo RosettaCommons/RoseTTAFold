@@ -12,16 +12,65 @@ unset __conda_setup
 # <<< conda initialize <<<
 ############################################################
 
+#############
+# help output
+#############
+
+function print_usage {
+cat <<EOF
+
+Usage: run_e2e_ver.sh -f <input fasta> [-w <working dir>][-c <cpus>][-m <mem>][-d <db path>]
+
+    -f, --fasta             Path to fasta input
+    -w, --wd                Path to working directory (default: your current dir)
+    -c, --cpus              CPU cores (default: 8)
+    -m, --mem               Memory in Gigabytes (default: 64) 
+    -d, --db                Database directory (default: pdb100_2021Mar03/pdb100_2021Mar03 in script dir)
+
+EOF
+exit 2
+}
+
+################
+# default values
+################
+
 SCRIPT=`realpath -s $0`
 export PIPEDIR=`dirname $SCRIPT`
-
+WDIR=$(pwd)
 CPU="8"  # number of CPUs to use
 MEM="64" # max memory (in GB)
+DB="$PIPEDIR/pdb100_2021Mar03/pdb100_2021Mar03"
 
-# Inputs:
-IN="$1"                # input.fasta
-WDIR=`realpath -s $2`  # working folder
+##################
+# argument parsing
+##################
 
+PARSED_ARGUMENTS=$(getopt -a -n run_e2e_ver.sh -o f:w:c:m:d: --long fasta:,wdir:,cpus:,mem:,db: -- "$@")
+if [ $? != 0 ]; then
+    print_usage    
+fi
+
+eval set -- "$PARSED_ARGUMENTS"
+while :
+do
+    case "$1" in
+        -f | --fasta)   IN="$2"     ; shift 2 ;;
+        -w | --wdir)    WDIR="$2"   ; shift 2 ;;
+        -c | --cpus)    CPU="$2"    ; shift 2 ;;
+        -m | --mem)     MEM="$2"    ; shift 2 ;;
+        -d | --db)      DB="$2"     ; shift 2;;
+        -h | --help)    print_usage ;;
+        # -- means the end of the args; drop this and break out of the while loop
+        --) shift; break ;;
+        *) print_usage ;;
+    esac
+done
+
+if [ -z "$IN" ]; then
+    echo -e "\n-f|--fasta is a required option"
+    print_usage
+fi
 
 LEN=`tail -n1 $IN | wc -m`
 
@@ -51,7 +100,6 @@ fi
 ############################################################
 # 3. search for templates
 ############################################################
-DB="$PIPEDIR/pdb100_2021Mar03/pdb100_2021Mar03"
 if [ ! -s $WDIR/t000_.hhr ]
 then
     echo "Running hhsearch"
