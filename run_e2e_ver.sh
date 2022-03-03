@@ -19,7 +19,7 @@ unset __conda_setup
 function print_usage {
 cat <<EOF
 
-Usage: run_e2e_ver.sh -f <input fasta> [-w <working dir>][-c <cpus>][-m <mem>]
+Usage: run_e2e_ver.sh -f <input fasta> [-w <working dir>][-c <cpus>][-m <mem>][-d <db path>]
 
     -f, --fasta             Path to fasta input
     -w, --wd                Path to working directory (default: your current dir)
