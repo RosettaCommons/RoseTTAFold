@@ -33,7 +33,7 @@ def get_matrices_kernel(As, eps=1e-10):
     return get_matrix_kernel(torch.cat(As, dim=0), eps)
 
 
-@cached_dirpklgz("%s/cache/trans_Q"%os.path.dirname(os.path.realpath(__file__)))
+@cached_dirpklgz("%s/.cache/trans_Q"%os.path.expanduser('~'))
 def _basis_transformation_Q_J(J, order_in, order_out, version=3):  # pylint: disable=W0613
     """
     :param J: order of the spherical harmonics
