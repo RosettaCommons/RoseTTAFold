@@ -777,7 +777,7 @@ class GSE3Res(nn.Module):
             self.add = GSum(f_out, f_in)
             # the following checks whether the skip connection would change
             # the output fibre strucure; the reason can be that the input has
-            # more channels than the ouput (for at least one degree); this would
+            # more channels than the output (for at least one degree); this would
             # then cause a (hard to debug) error in the next layer
             assert self.add.f_out.structure_dict == f_out.structure_dict, \
                 'skip connection would change output structure'
