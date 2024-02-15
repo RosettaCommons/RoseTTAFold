@@ -77,7 +77,7 @@ def extract_EnergyDistM(pose, energy_terms):
         # Parse the energy graph.
         while iru!=irue:
             # Dereference the pointer and get the other end.
-            edge = iru.__mul__()
+            edge = iru.dereference()
             
             # Evaluate energy edge and get energy values
             evals = [edge[e] for e in energy_terms]
@@ -98,7 +98,7 @@ def extract_EnergyDistM(pose, energy_terms):
                     
                 count += 1
             # Move pointer
-            iru.plus_plus()
+            iru.pre_increment()
     
     #########################################
     # Simple transformation of energy terms #
